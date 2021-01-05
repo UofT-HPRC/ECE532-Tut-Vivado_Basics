@@ -9,6 +9,9 @@
 \usepackage{amsmath}
 \usepackage{minted}
 \usepackage{scalerel}
+\usepackage[colorlinks = true,
+            linkcolor = black,
+            urlcolor  = blue]{hyperref}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[
 backend=biber,
@@ -53,14 +56,14 @@ Launch Vivado in order to create a new project. Note, if launching Vivado from a
 For the UG machines for example, the script will be located in the following location:
 
 \begin{verbatim}
-    /cad1/Xilinx/Vivado/2018.1/settings.sh
+    /cad1/Xilinx/Vivado/2018.3/settings.sh
 \end{verbatim}
 
 \noindent
 To \textit{source} the script file, type the following command into the terminal and hit enter:
 
 \begin{verbatim}
-    source /cad1/Xilinx/Vivado/2018.1/settings.sh
+    source /cad1/Xilinx/Vivado/2018.3/settings.sh
 \end{verbatim}
 
 \noindent
@@ -71,14 +74,14 @@ After sourcing the script, launch Vivado by typing vivado into the terminal:
 \end{verbatim}
 
 \noindent
-If you're launching Vivado from a Windows machine, you should be able to find Vivado from the Start Menu and don't need to launch Vivado from the terminal. Note, if you do want to launch Vivado from the Command Shell on a Windows machine (perhaps to launch Vivado using a provided TCL script), follow the above steps but note that the extension for the script file will be \textit{.bat} rather than \textit{.sh}.
+If you're launching Vivado from a Windows machine, you should be able to find Vivado from the Start Menu and don't need to launch Vivado from the terminal. Note, if you do want to launch Vivado from the Command Shell on a Windows machine (perhaps to launch Vivado using a provided TCL script), follow the above steps but note that the extension for the script file will be \textit{.bat} rather than \textit{.sh}. You should use Vivado version 2018.3 for these tutorials.
 
 \begin{verbatim}
     <Vivado Install Directory>\Xilinx\Vivado\<Vivado Version>\settings64.bat
 \end{verbatim}
 
 \noindent
-Once the Vivado GUI has opened, select \textbf{Create New Project} in order to start the project creation wizard. You will see a \textit{Create A New Vivado Project} dialog box; click \textbf{Next}. A zip file containing some necessary source files for this tutorial was distributed alongside this tutorial document, make sure the contents of that zip file are extracted to some directory in which you want to create your new project. In the \textit{project location} field of the current dialog, browse to the directory to which you extracted the project files. Enter \textbf{tutorial} in the \textit{project name} field and make sure that the \textit{Create project subdirectory} box is checked; click \textbf{Next}. See Figure~\ref{fig:new_proj_name} for an example.
+Once the Vivado GUI has opened, select \textbf{Create Project} in order to start the project creation wizard. You will see a \textit{Create A New Vivado Project} dialog box; click \textbf{Next}. A zip file containing some necessary source files for this tutorial was distributed alongside this tutorial document, make sure the contents of that zip file are extracted to some directory in which you want to create your new project. In the \textit{project location} field of the current dialog, browse to the directory to which you extracted the project files. Enter \textbf{tutorial} in the \textit{project name} field and make sure that the \textit{Create project subdirectory} box is checked; click \textbf{Next}. See Figure~\ref{fig:new_proj_name} for an example.
 
 \begin{figure}[!h]
     \centering
@@ -98,7 +101,7 @@ In the next window of the project creation wizard, Select the \textbf{RTL Projec
 
 Now we have the \textit{Add Constraints} window. In FPGA projects, constraints are used to specify things like which signals ought to connect to specific pins on the FPGA, and the frequency of our external clock sources. For this tutorial, we've provided a constraints file (extension \textit{.xdc}).  Click on the \textbf{Add Files...} button and browse to the location of the extracted files. Select the \textit{tutorial.xdc} file and click \textbf{Open} (if necessary). Ensure that \textit{Copy constraints files into project} check box is selected (this option serves the same purpose as we discussed with the source files earlier). Click \textbf{Next} and proceed to \textit{Default Part} selection.
 
-In the \textit{Default Part} form, using the \textbf{Parts} option and the various drop-down fields of the Filter section (or the search box), select the \textbf{XC7A100TCSG324-1} part. This corresponds to the FPGA part of the Nexsys DDR4 board (if you're using a Nexsys Video board, adjust this accordingly). See Figure~\ref{fig:new_proj_device} for an example. Note, while we used the \textit{Parts} option to select our part, a \textit{Boards} option is also available, which will select the appropriate part for the board you select in that list. The Nexsys boards aren't included in Xilinx's list of boards, though in later tutorials we'll go through how to add board files to the Vivado install such that Nexsys devices appear in the list. Note also that using the board option often allows us to avoid using a constraints file, since many of the constraints are defined in the board files themselves. For this tutorial, we'll stick to the \textit{Part} selection option. Click \textbf{Next} and then \textbf{Finish} in the last pane of the wizard to create the project.
+In the \textit{Default Part} form, using the \textbf{Parts} option and the various drop-down fields of the Filter section (or the search box), select the \textbf{XC7A100TCSG324-1} part. This corresponds to the FPGA part of the Nexys DDR4 board (if you're using a Nexys Video board, use \textbf{XC7A200TSBG484-1}). See Figure~\ref{fig:new_proj_device} for an example. Note, while we used the \textit{Parts} option to select our part, a \textit{Boards} option is also available, which will select the appropriate part for the board you select in that list. The Nexys boards aren't included in Xilinx's list of boards, though in later tutorials we'll go through how to add board files to the Vivado install such that Nexys devices appear in the list. Note also that using the board option often allows us to avoid using a constraints file, since many of the constraints are defined in the board files themselves. For this tutorial, we'll stick to the \textit{Part} selection option. Click \textbf{Next} and then \textbf{Finish} in the last pane of the wizard to create the project.
 
 \begin{figure}[!h]
     \centering
@@ -227,7 +230,7 @@ Click under the \textit{Package Pin} column across \textbf{led[7]} row to see a 
 \end{verbatim}
 
 \noindent
-Observe the pin and I/O standard assignments changed in the I/O Ports tab. 
+You can return to the \textit{I/O Ports} tab to observe that the pin and I/O standard assignments changed as indicated by our TCL commands. 
 
 Finally, You can also assign the pin constraints by selecting its entry (swt[7]) in the I/O ports tab, and dragging it to the Package view, and placing it at the \textbf{R13} location. You can assign the LVCMOS33 standard by selecting its entry (swt[7]), selecting the \textit{Configure} tab of the I/O Port Properties window, followed by clicking the drop-down button of the I/O standard field, and selecting LVCMOS33 (see Figure~\ref{fig:io_std}).
 
@@ -239,6 +242,8 @@ Finally, You can also assign the pin constraints by selecting its entry (swt[7])
 \end{figure}
 
 Once we have assigned all of our pin locations, we can save our assignments to the \textit{tutorial.xdc} file. Select save on upper left part of Vivado to save the constraints in the \textit{tutorial.xdc} file. Click \textbf{Update} when warning is prompted. Note, the changes were made to the project's local copy of the \textit{constraints.xdc} file. Close the \textit{Elaborated Design} view to return to the \textit{Project Manager}.
+
+The pin locations we used in the above section were determined by looking at the \href{https://reference.digilentinc.com/reference/programmable-logic/nexys-4-ddr/reference-manual}{Nexys DDR Reference Manual}. For example, if you look at the section titled \textit{10 Basic I/O} in the Reference Manual, you'll see a figure that indicates which pins are connected to the LEDs and Switches. For future projects, you can always use this reference manual to determine the appropriate pin locations. If you're attempting this tutorial on the Nexys Video board, the \href{https://reference.digilentinc.com/reference/programmable-logic/nexys-video/reference-manual}{Nexys Video Reference Manual} should be used to change all of the constraints in the \textbf{tutorial.xdc} file to the appropriate ones (Note, they are completely different since the two boards have different layouts and use different FPGA chips).
 
 
 
@@ -293,13 +298,9 @@ located above the waveform window to see the entire waveform within the current 
 \end{figure}
 
 
-Within the wavefrom viewer, there are a number of things we can change to make it easier to examine the output. Select \textbf{i[31:0]} in the waveform window, right-click, select \textbf{Radix}, and then select \textit{Unsigned Decimal} to view the for-loop index in integer form. Similarly, change the radix of \textbf{switches[7:0]} to \textit{Hexadecimal}. Finally, change the radix for the \textbf{leds[7:0]} and \textbf{e\_led[7:0]} to binary as we want to see each output bit. 
-\\
-\\
+Within the wavefrom viewer, there are a number of things we can change to make it easier to examine the output. Select \textbf{i[31:0]} in the waveform window, right-click, select \textbf{Radix}, and then select \textit{Unsigned Decimal} to view the for-loop index in integer form. Similarly, change the radix of \textbf{switches[7:0]} to \textit{Hexadecimal}. Finally, change the radix for the \textbf{leds[7:0]} and \textbf{e\_led[7:0]} to binary as we want to see each output bit.
 
 We can also add more signals to the waveform viewer for monitoring. Expand the tutorial\_tb instance, if necessary, in the \textit{Scopes} window and select the tut1 instance. The swt[7:0] and led[7:0] signals will be displayed in the \textit{Objects} window (see Figure~\ref{fig:sim_scope}). Select \textbf{swt[7:0]} and \textbf{led[7:0]} and drag them into the waveform window to monitor those lower-level signals.
-\\
-\\
 
 \begin{figure}[!h]
     \centering
